@@ -26,6 +26,10 @@ if (!GROQ_API_KEY) {
 app.use(cors());
 app.use(express.json());
 
+// Serve static booklets (PDFs)
+const BOOKLETS_DIR = path.join(__dirname, 'booklets');
+app.use('/booklets', express.static(BOOKLETS_DIR));
+
 // System prompt for CyberSaathi
 const SYSTEM_PROMPT = `You are CyberSaathi, an official cyber helpline chatbot for Chandigarh Cyber Police, enclosed in Indian scope. Your primary role is to assist citizens with cybercrime-related queries, provide guidance on cyber safety, and help victims report cybercrimes. You ONLY respond to cybersecurity, cybercrime, and digital safety related queries. For non-cyber related questions, politely redirect users to ask cyber-related questions.
 
@@ -677,6 +681,14 @@ app.post('/chat', async (req, res) => {
       return res.status(400).json({ success: false, error: 'Invalid messages array' });
     }
 
+    // Check if we have a valid API key
+    if (!process.env.GROQ_API_KEY || GROQ_API_KEY === 'dummy_key_for_testing') {
+      return res.json({ 
+        success: true, 
+        response: "I'm CyberSaathi, your cyber safety assistant. I'm currently in maintenance mode. Please contact the administrator to set up the AI service properly. For immediate cybercrime assistance, call Chandigarh Cyber Helpline 1930 or 0172-2749900." 
+      });
+    }
+
     // Prepend the system prompt
     const groqMessages = [
       { role: 'system', content: SYSTEM_PROMPT },
@@ -754,6 +766,47 @@ app.post('/scan-url', (req, res) => {
       }
     }
   });
+});
+
+// List available booklets
+app.get('/booklets', (req, res) => {
+  try {
+    // Protocol and host to build absolute URLs
+    const protocol = req.headers['x-forwarded-proto'] || req.protocol;
+    const host = req.get('host');
+    const base = `${protocol}://${host}`;
+
+    if (!fs.existsSync(BOOKLETS_DIR)) {
+      return res.json({ success: true, booklets: [] });
+    }
+
+    const files = fs
+      .readdirSync(BOOKLETS_DIR)
+      .filter((f) => f.toLowerCase().endsWith('.pdf'));
+
+    const formatSize = (bytes) => {
+      const mb = bytes / (1024 * 1024);
+      if (mb >= 0.1) return `${mb.toFixed(1)} MB`;
+      const kb = bytes / 1024;
+      return `${Math.max(1, Math.round(kb))} KB`;
+    };
+
+    const booklets = files.map((filename, idx) => {
+      const stat = fs.statSync(path.join(BOOKLETS_DIR, filename));
+      return {
+        id: String(idx + 1),
+        title: filename.replace(/_/g, ' ').replace(/\.[Pp][Dd][Ff]$/, ''),
+        filename,
+        fileUrl: `${base}/booklets/${encodeURIComponent(filename)}`,
+        size: formatSize(stat.size),
+      };
+    });
+
+    res.json({ success: true, booklets });
+  } catch (err) {
+    console.error('Error listing booklets:', err.message);
+    res.status(500).json({ success: false, error: 'Failed to list booklets' });
+  }
 });
 
 // Test endpoint to manually trigger crawling
