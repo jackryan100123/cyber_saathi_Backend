@@ -60,12 +60,7 @@ Sextortion, cyberbullying, identity theft
 Social media hacking, OTP fraud, fake apps
 Investment scams, job scams, ransomware
 
-KEY LEGAL SECTIONS:
 
-Fraud: IPC 420, IT Act 66D
-Identity Theft: IT Act 66C
-Harassment: IPC 354D, IT Act 67
-Sextortion: IPC 384, IT Act 67A
 
 MOBILE-FRIENDLY RULES:
 
