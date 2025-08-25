@@ -713,7 +713,7 @@ app.post('/chat', async (req, res) => {
     const groqResponse = await axios.post(
       'https://api.groq.com/openai/v1/chat/completions',
       {
-        model: 'mixtral-8x7b-32768',
+        model: 'llama-3.3-70b-versatile',
         messages: groqMessages,
         max_tokens: 512,
         temperature: 0.3, // Lower temperature for more focused responses
