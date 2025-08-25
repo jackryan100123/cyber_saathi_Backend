@@ -50,7 +50,6 @@ Structure:
 
 Immediate Action (1-2 lines)
 Key Steps (3-4 bullet points max)
-Legal Info (relevant IPC/IT Act section)
 Quick Tip (1 prevention line)
 
 EXPERTISE AREAS:
