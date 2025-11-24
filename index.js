@@ -45,44 +45,64 @@ function detectExplicitLanguageRequest(messages) {
     .map((msg) => msg.content?.toLowerCase() || "")
     .join(" ");
 
-  // English request patterns
+  // English request patterns - comprehensive coverage
   const englishRequests = [
-    /\b(speak|reply|respond|answer|talk|write|type)\s+(in\s+)?english\b/i,
-    /\b(english\s+me|english\s+mein|english\s+language)\b/i,
-    /\b(use\s+english|in\s+english|english\s+only)\b/i,
+    /\b(speak|reply|respond|answer|talk|write|type|tell|explain|say)\s+(in\s+)?english\b/i,
+    /\b(english\s+me|english\s+mein|english\s+language|english\s+only)\b/i,
+    /\b(use\s+english|in\s+english|english\s+me\s+(batao|bataiye|bolo|likho|samjhao))\b/i,
+    /\b(english\s+(me|mein)\s+(batao|bataiye|bolo|likho|samjhao))\b/i,
   ];
 
-  // Hindi request patterns
+  // Hindi request patterns - comprehensive coverage including "hindi me bataiye"
   const hindiRequests = [
-    /\b(speak|reply|respond|answer|talk|write|type)\s+(in\s+)?hindi\b/i,
+    // Standard patterns
+    /\b(speak|reply|respond|answer|talk|write|type|tell|explain|say)\s+(in\s+)?hindi\b/i,
     /\b(hindi\s+me|hindi\s+mein|hindi\s+language)\b/i,
-    /\b(use\s+hindi|in\s+hindi|hindi\s+mein\s+bolo|hindi\s+mein\s+likho)\b/i,
-    /\b(\u0939\u093f\u0928\u094d\u0926\u0940\s+|\u0939\u093f\u0928\u094d\u0926\u0940\s+\u092e\u0947\u0902)\b/i, // Hindi in Devanagari
+    /\b(use\s+hindi|in\s+hindi|hindi\s+only)\b/i,
+    // Hindi me + verb patterns (most important for "hindi me bataiye")
+    /\bhindi\s+me\s+(batao|bataiye|bata|bolo|boliye|likho|likhiye|samjhao|samjhaiye|kaho|kahiye|bataye|batayen)\b/i,
+    /\bhindi\s+mein\s+(batao|bataiye|bata|bolo|boliye|likho|likhiye|samjhao|samjhaiye|kaho|kahiye|bataye|batayen)\b/i,
+    // Verb + hindi me patterns
+    /\b(batao|bataiye|bata|bolo|boliye|likho|likhiye|samjhao|samjhaiye|kaho|kahiye|bataye|batayen)\s+(hindi\s+me|hindi\s+mein)\b/i,
+    // Hindi in Devanagari script
+    /\b(\u0939\u093f\u0928\u094d\u0926\u0940\s+|\u0939\u093f\u0928\u094d\u0926\u0940\s+\u092e\u0947\u0902|\u0939\u093f\u0928\u094d\u0926\u0940\s+\u092e\u0947)\b/i,
+    // More flexible patterns
+    /\b(hindi\s+me|hindi\s+mein)\s+(bata|bataye|batayen|bol|likh|samjha|kaha)\b/i,
   ];
 
   // Hinglish request patterns
   const hinglishRequests = [
-    /\b(speak|reply|respond|answer|talk|write|type)\s+(in\s+)?hinglish\b/i,
-    /\b(hinglish\s+me|hinglish\s+mein|hinglish\s+language)\b/i,
+    /\b(speak|reply|respond|answer|talk|write|type|tell|explain|say)\s+(in\s+)?hinglish\b/i,
+    /\b(hinglish\s+me|hinglish\s+mein|hinglish\s+language|hinglish\s+only)\b/i,
     /\b(use\s+hinglish|in\s+hinglish|roman\s+hindi)\b/i,
+    // Hinglish me + verb patterns
+    /\bhinglish\s+me\s+(batao|bataiye|bata|bolo|boliye|likho|likhiye|samjhao|samjhaiye|kaho|kahiye)\b/i,
+    /\bhinglish\s+mein\s+(batao|bataiye|bata|bolo|boliye|likho|likhiye|samjhao|samjhaiye|kaho|kahiye)\b/i,
   ];
 
   // Check for explicit requests (most recent messages have priority)
-  const recentMessages = messages
-    .filter((msg) => msg.role === "user")
-    .slice(-3) // Check last 3 messages
-    .map((msg) => msg.content?.toLowerCase() || "")
-    .reverse(); // Most recent first
+  // Check the MOST RECENT message first (highest priority)
+  const userMessages = messages.filter((msg) => msg.role === "user");
+  if (userMessages.length > 0) {
+    // Check last 3 messages, most recent first
+    const recentMessages = userMessages
+      .slice(-3)
+      .map((msg) => msg.content?.toLowerCase() || "")
+      .reverse(); // Most recent first
 
-  for (const msg of recentMessages) {
-    if (englishRequests.some((pattern) => pattern.test(msg))) {
-      return "en";
-    }
-    if (hindiRequests.some((pattern) => pattern.test(msg))) {
-      return "hi";
-    }
-    if (hinglishRequests.some((pattern) => pattern.test(msg))) {
-      return "hinglish";
+    for (const msg of recentMessages) {
+      // Check English first
+      if (englishRequests.some((pattern) => pattern.test(msg))) {
+        return "en";
+      }
+      // Check Hindi
+      if (hindiRequests.some((pattern) => pattern.test(msg))) {
+        return "hi";
+      }
+      // Check Hinglish
+      if (hinglishRequests.some((pattern) => pattern.test(msg))) {
+        return "hinglish";
+      }
     }
   }
 
@@ -94,10 +114,21 @@ function detectLanguage(messages) {
   if (!Array.isArray(messages) || messages.length === 0) return "en";
 
   // First, check for explicit language requests (highest priority)
+  // This MUST be checked first and take precedence over everything else
   const explicitLanguage = detectExplicitLanguageRequest(messages);
   if (explicitLanguage) {
+    console.log(
+      `[Language Detection] Explicit language request detected: ${explicitLanguage}`
+    );
     return explicitLanguage;
   }
+
+  // Get the most recent user message for priority checking
+  const userMessages = messages.filter((msg) => msg.role === "user");
+  const lastUserMessage =
+    userMessages.length > 0
+      ? userMessages[userMessages.length - 1]?.content || ""
+      : "";
 
   // Get all user messages from conversation
   const allUserMessages = messages
@@ -107,13 +138,40 @@ function detectLanguage(messages) {
 
   if (!allUserMessages.trim()) return "en";
 
-  // Check for Devanagari script (Hindi, Marathi, etc.)
+  // Check most recent message first for language indicators
+  if (lastUserMessage) {
+    // Check for Devanagari script in recent message (strong indicator)
+    const devanagariRegex = /[\u0900-\u097F]/;
+    if (devanagariRegex.test(lastUserMessage)) {
+      return "hi"; // Hindi in Devanagari
+    }
+
+    // Check for Hinglish patterns in recent message
+    const recentHinglishPatterns = [
+      /\b(main|tum|aap|kyun|kaise|kya|hai|ho|tha|thi|the|hoga|hogi|honge)\b/gi,
+      /\b(mujhe|tujhe|usko|unko|isko|inko|yahan|wahan|idhar|udhar)\b/gi,
+      /\b(acha|theek|bilkul|zaroor|sahi|galat|nahi|haan|hain|kab|kaun|kisne)\b/gi,
+      /\b(mera|mere|meri|tera|tumhara|apka|unka|iska)\b/gi,
+    ];
+
+    const recentHinglishMatches = recentHinglishPatterns.reduce(
+      (count, pattern) => count + (lastUserMessage.match(pattern) || []).length,
+      0
+    );
+
+    // If recent message has significant Hinglish, prioritize it
+    if (recentHinglishMatches >= 2) {
+      return "hinglish";
+    }
+  }
+
+  // Check for Devanagari script in entire conversation (Hindi, Marathi, etc.)
   const devanagariRegex = /[\u0900-\u097F]/;
   if (devanagariRegex.test(allUserMessages)) {
     return "hi"; // Hindi in Devanagari
   }
 
-  // Check for Hinglish/Roman Hindi patterns
+  // Check for Hinglish/Roman Hindi patterns in entire conversation
   const hinglishPatterns = [
     /\b(main|tum|aap|kyun|kaise|kya|hai|ho|tha|thi|the|hoga|hogi|honge)\b/gi,
     /\b(mujhe|tujhe|usko|unko|isko|inko|yahan|wahan|idhar|udhar)\b/gi,
@@ -229,13 +287,13 @@ function detectVictimStatus(messages) {
 function generateSystemPrompt(language, isVictim, explicitRequest = false) {
   const languageInstructions = {
     en: explicitRequest
-      ? "User has explicitly requested English. Respond ONLY in English. Use clear, professional English."
+      ? "CRITICAL: User has EXPLICITLY requested English. You MUST respond ONLY in English. Do NOT use any other language. Use clear, professional English throughout your entire response."
       : "Respond in English. Use clear, professional English.",
     hi: explicitRequest
-      ? "User has explicitly requested Hindi. Respond ONLY in Hindi (Devanagari script). Use clear, professional Hindi."
+      ? "CRITICAL: User has EXPLICITLY requested Hindi (e.g., 'hindi me bataiye'). You MUST respond ONLY in Hindi using Devanagari script (हिंदी). Do NOT use English or Hinglish. Use clear, professional Hindi throughout your entire response. This is a direct user request that must be honored."
       : "Respond in Hindi (Devanagari script). Use clear, professional Hindi.",
     hinglish: explicitRequest
-      ? "User has explicitly requested Hinglish. Respond ONLY in Hinglish (Hindi words written in English/Roman script). Match the user's style - use words like 'main', 'tum', 'aap', 'hai', 'hoga', etc. Keep it natural and conversational."
+      ? "CRITICAL: User has EXPLICITLY requested Hinglish. You MUST respond ONLY in Hinglish (Hindi words written in English/Roman script). Do NOT use pure English or Devanagari Hindi. Match the user's style - use words like 'main', 'tum', 'aap', 'hai', 'hoga', etc. Keep it natural and conversational. This is a direct user request that must be honored."
       : "Respond in Hinglish (Hindi words written in English/Roman script). Match the user's style - use words like 'main', 'tum', 'aap', 'hai', 'hoga', etc. Keep it natural and conversational.",
   };
 
@@ -1110,14 +1168,26 @@ app.post("/chat", async (req, res) => {
       explicitLanguageRequest !== null // True if explicit request was made
     );
 
-    // Log detection results for debugging
+    // Log detection results for debugging with more detail
+    if (explicitLanguageRequest) {
+      console.log(
+        `🌐 [LANGUAGE] EXPLICIT REQUEST DETECTED: "${explicitLanguageRequest}" | Last message: "${lastUserMessage.substring(
+          0,
+          100
+        )}" | Final language: ${detectedLanguage}`
+      );
+    } else {
+      console.log(
+        `🌐 [LANGUAGE] Auto-detected: ${detectedLanguage} | Last message: "${lastUserMessage.substring(
+          0,
+          100
+        )}"`
+      );
+    }
     console.log(
-      `Language: ${detectedLanguage}${
-        explicitLanguageRequest ? " (explicitly requested)" : ""
-      }, Victim: ${isVictim}, Message preview: ${lastUserMessage.substring(
-        0,
-        50
-      )}...`
+      `👤 [STATUS] Victim: ${isVictim} | Language: ${detectedLanguage} | Explicit: ${
+        explicitLanguageRequest || "none"
+      }`
     );
 
     // Prepend the dynamic system prompt
