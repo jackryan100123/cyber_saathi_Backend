@@ -38,6 +38,7 @@ app.use(cors({
     'http://localhost:8081',
     'http://localhost:19006',
     'http://192.168.2.52:8081', // Local IP for web development
+    'https://cybersaathi.info', // Production domain
     /^https:\/\/.*\.exp\.direct$/, // Expo tunnel HTTPS origins
     /^https:\/\/.*\.exp\.d$/,     // Expo tunnel HTTPS origins
     /^https:\/\/.*\.exp\.dev$/,   // Expo tunnel HTTPS origins
@@ -50,9 +51,128 @@ app.use(cors({
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 
-// Serve static booklets (PDFs)
+// Booklets directory path
 const BOOKLETS_DIR = path.join(__dirname, "booklets");
-app.use("/booklets", express.static(BOOKLETS_DIR));
+
+// GET /booklets - Get list of available booklets (MUST be before static middleware)
+// Handle both /booklets and /booklets/ (with trailing slash)
+app.get(["/booklets", "/booklets/"], (req, res) => {
+  // Set CORS headers explicitly
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET');
+  res.header('Content-Type', 'application/json');
+  
+  try {
+    console.log("📚 Fetching booklets from:", BOOKLETS_DIR);
+    
+    // Check if booklets directory exists
+    if (!fs.existsSync(BOOKLETS_DIR)) {
+      console.log("⚠️ Booklets directory not found:", BOOKLETS_DIR);
+      return res.json({
+        success: true,
+        booklets: [],
+        message: "Booklets directory not found"
+      });
+    }
+
+    // Read all files from booklets directory
+    const files = fs.readdirSync(BOOKLETS_DIR);
+    console.log("📁 Files found:", files);
+    
+    // Filter only PDF files
+    const pdfFiles = files.filter(file => 
+      file.toLowerCase().endsWith('.pdf')
+    );
+    
+    console.log("📄 PDF files:", pdfFiles);
+
+    // Get base URL from request
+    const protocol = req.protocol || (req.secure ? 'https' : 'http');
+    const host = req.get('host') || 'cybersaathi.info';
+    const baseUrl = `${protocol}://${host}`;
+
+    // Map files to booklet objects
+    const booklets = pdfFiles.map((file, index) => {
+      try {
+        const filePath = path.join(BOOKLETS_DIR, file);
+        const stats = fs.statSync(filePath);
+        const fileSizeInBytes = stats.size;
+        
+        // Convert bytes to readable format
+        let size = '';
+        if (fileSizeInBytes < 1024) {
+          size = `${fileSizeInBytes} B`;
+        } else if (fileSizeInBytes < 1024 * 1024) {
+          size = `${(fileSizeInBytes / 1024).toFixed(1)} KB`;
+        } else {
+          size = `${(fileSizeInBytes / (1024 * 1024)).toFixed(1)} MB`;
+        }
+
+        // Create a readable title from filename
+        const title = file
+          .replace(/\.pdf$/i, '')
+          .replace(/_/g, ' ')
+          .replace(/\b\w/g, l => l.toUpperCase());
+
+        return {
+          id: `booklet-${index + 1}`,
+          title: title,
+          filename: file,
+          fileUrl: `${baseUrl}/booklets/${encodeURIComponent(file)}`,
+          size: size
+        };
+      } catch (fileError) {
+        console.error(`Error processing file ${file}:`, fileError.message);
+        return null;
+      }
+    }).filter(booklet => booklet !== null);
+
+    console.log("✅ Returning booklets:", booklets.length);
+    
+    res.json({
+      success: true,
+      booklets: booklets
+    });
+  } catch (error) {
+    console.error("❌ Error fetching booklets:", error.message);
+    console.error("Stack:", error.stack);
+    res.status(500).json({
+      success: false,
+      error: "Failed to fetch booklets: " + error.message,
+      booklets: []
+    });
+  }
+});
+
+// Serve static booklets (PDFs) - AFTER the list endpoint
+// Only serve actual PDF files (e.g., /booklets/filename.pdf)
+// Add middleware to skip directory requests (they're handled by GET route above)
+app.use("/booklets", (req, res, next) => {
+  // Skip if it's a request to /booklets or /booklets/ (no filename)
+  // These are handled by the GET route above
+  const pathAfterBooklets = req.path.replace(/^\/booklets\/?/, '');
+  
+  if (!pathAfterBooklets || pathAfterBooklets === '' || pathAfterBooklets === '/') {
+    // This is a directory request, skip static middleware
+    // It should have been handled by GET /booklets route above
+    return res.status(404).json({
+      success: false,
+      error: "Not found. Use GET /booklets to get the list of booklets."
+    });
+  }
+  
+  // It's a file request, serve it using static middleware
+  express.static(BOOKLETS_DIR, {
+    index: false,
+    dotfiles: 'ignore',
+    setHeaders: (res, filePath) => {
+      if (filePath.endsWith('.pdf')) {
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Content-Disposition', 'inline');
+      }
+    }
+  })(req, res, next);
+});
 
 // Detect explicit language requests from user
 function detectExplicitLanguageRequest(messages) {
@@ -1084,6 +1204,7 @@ async function crawlNews() {
     return fallbackArticles;
   }
 }
+
 
 // ==================== NEWS ENDPOINT ====================
 
