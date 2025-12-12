@@ -1,8 +1,26 @@
 {
-  "lastUpdated": "2025-12-12T08:58:40.488Z",
+  "lastUpdated": "2025-12-12T09:38:04.924Z",
   "totalArticles": 6,
-  "newArticlesCount": 1,
+  "newArticlesCount": 2,
   "articles": [
+    {
+      "title": "Shivraj Patil death: Tributes pour in as former Home Minister passes away",
+      "description": "Cybersecurity and crime related news from India",
+      "url": "https://www.thehindu.com/news/national/shivraj-patil-death-former-home-minister-shivraj-patil-is-no-more-tributes-pour-in/article70387465.ece",
+      "publishedAt": "2025-12-12T09:37:58.593Z",
+      "source": "The Hindu",
+      "category": "Cybersecurity",
+      "crawledAt": "2025-12-12T09:37:58.593Z"
+    },
+    {
+      "title": "President Murmu urges all communities in Manipur to support efforts for peace, reconciliation",
+      "description": "Cybersecurity and crime related news from India",
+      "url": "https://www.thehindu.com/news/national/manipur/president-droupadi-murmu-manipur-visit-on-december-12-2025/article70388006.ece",
+      "publishedAt": "2025-12-12T09:37:58.592Z",
+      "source": "The Hindu",
+      "category": "Cybersecurity",
+      "crawledAt": "2025-12-12T09:37:58.592Z"
+    },
     {
       "title": "Parliament Winter session LIVE: Sudha Murthy proposes free and compulsory early childcare and education in Rajya Sabha",
       "description": "Cybersecurity and crime related news from India",
@@ -38,24 +56,6 @@
       "source": "India Today",
       "category": "Cybersecurity",
       "crawledAt": "2025-12-12T08:39:10.417Z"
-    },
-    {
-      "title": "BJP Files Complaint Against Trinamool Leader For Using E-Cigarette In Lok Sabha",
-      "description": "​​​​​​​In this breaking update, BJP MP Anurag Thakur has lodged a formal complaint with the Lok Sabha Speaker, accusing a Trinamool Congress MP of \"openly vaping\" during Question Hour. Thakur calls it a serious breach of parliamentary conduct and a direct violation of Indian law, pointing to the 201",
-      "url": "https://www.indiatoday.in/india/video/anurag-thakur-files-formal-complaint-against-tmc-mp-for-using-e-cigarette-in-lok-sabha-ytvd-2834938-2025-12-12",
-      "publishedAt": "2025-12-12T08:39:10.416Z",
-      "source": "India Today",
-      "category": "Cybersecurity",
-      "crawledAt": "2025-12-12T08:39:10.416Z"
-    },
-    {
-      "title": "Gujarat man loses Rs 2.52 crore in WhatsApp stock investment fraud scam",
-      "description": "A 60-year-old man from Valsad, Gujarat, has reported losing Rs 2.52 crore in a stock market investment fraud that began with a message on WhatsApp. The victim, lured by promises of high returns after watching a YouTube video, filed a complaint with local cyber police after realizing he was deceived.",
-      "url": "https://www.indiatoday.in/india/gujarat/story/rs-2-52-crore-stock-market-scam-valsad-fraudulent-trading-app-fake-sebi-claims-2834920-2025-12-12",
-      "publishedAt": "2025-12-12T08:39:10.416Z",
-      "source": "India Today",
-      "category": "Cybersecurity",
-      "crawledAt": "2025-12-12T08:39:10.416Z"
     }
   ]
 }

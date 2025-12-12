@@ -62,6 +62,8 @@ app.get(["/booklets", "/booklets/"], (req, res) => {
   res.header('Access-Control-Allow-Methods', 'GET');
   res.header('Content-Type', 'application/json');
   
+  console.log("📚 GET /booklets request received");
+  
   try {
     console.log("📚 Fetching booklets from:", BOOKLETS_DIR);
     
@@ -148,13 +150,12 @@ app.get(["/booklets", "/booklets/"], (req, res) => {
 // Only serve actual PDF files (e.g., /booklets/filename.pdf)
 // Add middleware to skip directory requests (they're handled by GET route above)
 app.use("/booklets", (req, res, next) => {
+  // When app.use("/booklets", ...) is used, Express strips "/booklets" from req.path
+  // So /booklets/ becomes req.path = "/", and /booklets/filename.pdf becomes req.path = "/filename.pdf"
   // Skip if it's a request to /booklets or /booklets/ (no filename)
-  // These are handled by the GET route above
-  const pathAfterBooklets = req.path.replace(/^\/booklets\/?/, '');
-  
-  if (!pathAfterBooklets || pathAfterBooklets === '' || pathAfterBooklets === '/') {
+  if (!req.path || req.path === '/' || req.path === '') {
     // This is a directory request, skip static middleware
-    // It should have been handled by GET /booklets route above
+    // It should have been handled by GET /booklets route above, but if it reaches here, return 404
     return res.status(404).json({
       success: false,
       error: "Not found. Use GET /booklets to get the list of booklets."
@@ -1307,4 +1308,36 @@ app.listen(PORT, HOST, () => {
   console.log(`📰 Auto-crawling enabled: Every 12 hours`);
   console.log(`🎯 Top 6 priority articles: Always the latest and most relevant`);
   console.log(`🔧 Manual crawl: POST /admin/crawl-news`);
+});
+
+// ------------------------------------------------------
+// BOOKLETS API (FIXED VERSION)
+// ------------------------------------------------------
+
+const BOOKLETS_LIST = [
+  {
+    id: "1",
+    title: "Cyber Security Handbook",
+    fileUrl: "https://cybersaathi.info/booklets/Cyber%20Security%20Handbook.pdf",
+    size: "1.8 MB"
+  },
+  {
+    id: "2",
+    title: "Internet Safety Awareness",
+    fileUrl: "https://cybersaathi.info/booklets/Internet_Safety_Awareness.pdf",
+    size: "1.2 MB"
+  },
+  {
+    id: "3",
+    title: "Mahila Suraksha Booklet",
+    fileUrl: "https://cybersaathi.info/booklets/Mahila_Suraksha_Booklet25.pdf",
+    size: "2.4 MB"
+  }
+];
+
+app.get("/booklets", (req, res) => {
+  res.json({
+    success: true,
+    booklets: BOOKLETS_LIST
+  });
 });
