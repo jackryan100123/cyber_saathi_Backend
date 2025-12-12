@@ -1,0 +1,367 @@
+{
+    "chandigarh_police_directory_2025_10_27": {
+      "DGP/IGP/SSP": [
+        {
+          "name": "Dr. Sagar Preet Hooda, IPS",
+          "rank": "DGP",
+          "designation": "DGP, UT, Chandigarh",
+          "charges": ["Overall Police Administration UT Chandigarh"],
+          "contact": {
+            "mobile": "9779580901",
+            "landline_office": ["2740106", "2760805", "2740501"],
+            "fax": "2749311",
+            "residence": "2921805"
+          }
+        },
+        {
+          "name": "Sh. Pushpendra Kumar, IPS",
+          "rank": "IGP",
+          "designation": "IGP, UT Chandigarh & IG Prisons",
+          "charges": ["UT Police Supervision", "Prisons Administration"],
+          "contact": {
+            "mobile": "9779580902",
+            "landline_office": ["2924811", "2745004", "2760806", "2760831", "4606765"],
+            "residence": "2544525"
+          }
+        },
+        {
+          "name": "Sh. Sumer Partap Singh, IPS",
+          "rank": "SSP",
+          "designation": "SSP/Traffic & Security",
+          "charges": ["City Traffic", "Security Wing"],
+          "contact": {
+            "mobile": "9779580904",
+            "landline_office": ["2740007", "2760834", "2749797", "2760829"]
+          }
+        },
+        {
+          "name": "Ms. Kanwardeep Kaur, IPS",
+          "rank": "SSP",
+          "designation": "SSP/UT, Chandigarh",
+          "charges": ["Overall UT Police Field Units"],
+          "contact": {
+            "mobile": "9779580903",
+            "landline_office": ["2760001", "2760807"],
+            "residence": ["4659275", "2700469"]
+          }
+        }
+      ],
+  
+      "SP_Level": [
+        {
+          "name": "Sh. Manjeet, IPS",
+          "rank": "SP",
+          "designation": "SP/Headquarters, Intelligence, EOW, Communication, Assistant Commandant General Home Guards, SP/EOW",
+          "charges": ["HQ", "Intelligence", "Economic Offences Wing", "Communications", "Home Guards"],
+          "contact": {
+            "mobile": "9779580905",
+            "landline_office": ["2760810", "2991539", "2924257"]
+          }
+        },
+        {
+          "name": "Ms. Geetanjali Khandelwal, IPS",
+          "rank": "SP",
+          "designation": "SP/Operations, Cyber Crime & Addl. Charge SP/Vigilance",
+          "charges": ["Operations", "Cyber Crime", "Vigilance"],
+          "contact": {
+            "mobile": "9779580906",
+            "landline_office": ["2760816", "2760830"]
+          }
+        },
+        {
+          "name": "Ms. K M Priyanka, IPS",
+          "rank": "SP",
+          "designation": "SP/City, W&CSU",
+          "charges": ["City Police", "Women & Child Support Unit"],
+          "contact": {
+            "mobile": "9779580907",
+            "landline_office": ["2760811"]
+          }
+        },
+        {
+          "name": "Sh. Jasbir Singh, DANIPS",
+          "rank": "SP",
+          "designation": "Commandant/IRBn & Addl. Charge SP/Crime",
+          "charges": ["IRBn", "Crime Branch"],
+          "contact": {
+            "mobile": "9779580909",
+            "landline_office": ["2760809"]
+          }
+        }
+      ],
+  
+      "SDPO_DSP_SubDivisions": [
+        {
+          "name": "Sh. Udaypal Singh, CPS",
+          "rank": "SDPO",
+          "designation": "SDPO/Central",
+          "charges": ["Central Subdivision"],
+          "contact": {
+            "mobile": "9779580914",
+            "landline_office": ["2971133"]
+          }
+        },
+        {
+          "name": "Sh. Dilbagh Singh, CPS",
+          "rank": "SDPO",
+          "designation": "SDPO/East",
+          "charges": ["East Subdivision"],
+          "contact": {
+            "mobile": "9779580908",
+            "landline_office": ["2924262", "2678067"]
+          }
+        },
+        {
+          "name": "Sh. Vijay Singh, DANIPS",
+          "rank": "SDPO",
+          "designation": "SDPO/North/East, Addl. Charge DSP/DCC",
+          "charges": ["North Subdivision", "East Subdivision", "DCC"],
+          "contact": {
+            "mobile": "9779501995",
+            "landline_office": ["2993526", "2700131"]
+          }
+        },
+        {
+          "name": "SDPO/South",
+          "rank": "SDPO",
+          "designation": "SDPO/South",
+          "charges": ["South Subdivision"],
+          "contact": {
+            "mobile": "9779580995",
+            "landline_office": ["3511451"]
+          }
+        },
+        {
+          "name": "Sh. Anurag Daru, IPS",
+          "rank": "SDPO",
+          "designation": "SDPO/South/West",
+          "charges": ["South Subdivision", "West Subdivision"],
+          "contact": {
+            "mobile": "7087239008",
+            "landline_office": ["2993538"]
+          }
+        }
+      ],
+  
+      "DSP_Branch_Units": [
+        {
+          "name": "Sh. Dalbir Singh, CPS",
+          "rank": "DSP",
+          "designation": "DSP/CID",
+          "charges": ["CID"],
+          "contact": {
+            "mobile": "9779580991",
+            "landline_office": ["2924877"]
+          }
+        },
+        {
+          "name": "Sh. P. Abinandhan, DANIPS",
+          "rank": "DSP",
+          "designation": "DSP/HQ, EOW, PLWC, Addl. Charge DSP/DCHG",
+          "charges": ["HQ", "EOW", "PLWC", "DCHG"],
+          "contact": {
+            "mobile": "9779580913",
+            "landline_office": ["2760815", "2922725", "2700432"]
+          }
+        },
+        {
+          "name": "Sh. A. Venkatesh, DANIPS",
+          "rank": "DSP",
+          "designation": "OSD/Vigilance, DSP/Cyber Crime Cell",
+          "charges": ["Vigilance", "Cyber Crime Cell"],
+          "contact": {
+            "mobile": ["7087239002", "9779580994"],
+            "landline_office": ["2740012", "2760820", "2920097"]
+          }
+        }
+      ],
+  
+      "Traffic_Wing": [
+        {
+          "name": "Sh. Shri Parkash, CPS",
+          "rank": "DSP",
+          "designation": "DSP/Traffic Admn. (South-West)",
+          "charges": ["Traffic Administration SW Zone"],
+          "contact": {
+            "mobile": "9501035414",
+            "landline_office": ["2921049"]
+          }
+        },
+        {
+          "name": "Smt. Gurjeet Kaur, CPS",
+          "rank": "DSP",
+          "designation": "DSP/Traffic (Central)",
+          "charges": ["Traffic Central Zone"],
+          "contact": {
+            "mobile": "9875910120"
+          }
+        },
+        {
+          "name": "Sh. Charanjit Singh VIRK, CPS",
+          "rank": "DSP",
+          "designation": "DSP/Traffic (East)",
+          "charges": ["Traffic East Zone"],
+          "contact": {
+            "mobile": "9779580966",
+            "landline_office": ["2921049"]
+          }
+        },
+        {
+          "name": "Sh. Lakshay Pandey, DANIPS",
+          "rank": "DSP",
+          "designation": "Traffic (R&D), Addl. Charge Asstt. Commandant IRBn, Computer & IT",
+          "charges": ["Traffic R&D", "IRBn (Asstt. Commandant)", "Computer & IT"],
+          "contact": {
+            "mobile": "9779580989",
+            "landline_office": ["2760655", "2925629"]
+          }
+        },
+        {
+          "name": "Sh. Vikas Sheokand, DANIPS",
+          "rank": "DSP",
+          "designation": "DSP/Traffic (South/East Zone), Addl. Charge DSP/Operation",
+          "charges": ["Traffic SE Zone", "Operations"],
+          "contact": {
+            "mobile": "9779580930",
+            "landline_office": ["2924834", "2750046"]
+          }
+        }
+      ],
+  
+      "Crime_Units": [
+        {
+          "name": "Sh. Dhiraj Kumar, DANIPS",
+          "rank": "DSP",
+          "designation": "DSP/Crime, Addl. Charge ANTF, PCC",
+          "charges": ["Crime Branch", "ANTF", "PCC"],
+          "contact": {
+            "mobile": "9779580918",
+            "landline_office": ["2972797"]
+          }
+        }
+      ],
+  
+      "PCR_Welfare_Community": [
+        {
+          "name": "Smt. Harjit Kaur, CPS",
+          "rank": "DSP",
+          "designation": "DSP/PCR, DSP/Welfare (I), Addl. Charge DSP/Police Lines",
+          "charges": ["PCR", "Welfare-I", "Police Lines"],
+          "contact": {
+            "mobile": "9779067320",
+            "landline_office": ["2924843", "3510741", "2922002"]
+          }
+        },
+        {
+          "name": "Smt. Manju Sharma, CPS",
+          "rank": "DSP",
+          "designation": "DSP/Welfare (II)",
+          "charges": ["Welfare-II"],
+          "contact": {
+            "mobile": "9779580916"
+          }
+        },
+        {
+          "name": "Ms. Sita Devi, CPS",
+          "rank": "DSP",
+          "designation": "DSP/Community Policing Division, Addl. Charge DSP/Admin PHQ",
+          "charges": ["Community Policing", "PHQ Administration"],
+          "contact": {
+            "mobile": "7087239007",
+            "landline_office": ["2760817", "3510053"]
+          }
+        }
+      ],
+  
+      "Training_IT_Support": [
+        {
+          "name": "Sh. Amrao Singh, CPS",
+          "rank": "DSP",
+          "designation": "DSP/Training",
+          "charges": ["Training"],
+          "contact": {
+            "mobile": "9779580996",
+            "landline_office": ["2920939"]
+          }
+        },
+        {
+          "name": "Sh. Hardit Singh, CPS",
+          "rank": "DSP",
+          "designation": "DSP/Computer Lab/RTC",
+          "charges": ["Computer Lab", "RTC"],
+          "contact": {
+            "mobile": "9779580912",
+            "landline_office": ["3510053"]
+          }
+        }
+      ],
+  
+      "Security": [
+        {
+          "name": "Sh. Sukhwinder Pal Singh Sondhi, CPS",
+          "rank": "DSP",
+          "designation": "DSP/Security (High Court)",
+          "charges": ["High Court Security"],
+          "contact": {
+            "mobile": "9779580992"
+          }
+        }
+      ],
+  
+      "Admin_Office_Staff": [
+        {
+          "name": "AC/F&A",
+          "designation": "Accounts & Finance",
+          "contact": {
+            "landline_office": ["2760814"]
+          }
+        },
+        {
+          "name": "Ms. Sonia S.O. (SAS)",
+          "designation": "Section Officer",
+          "contact": {
+            "mobile": "9463158218",
+            "landline_office": ["2760846"]
+          }
+        },
+        {
+          "name": "Sh. Pawan Kumar",
+          "designation": "Supdt. Admn (Establishment)",
+          "contact": {
+            "mobile": "9216222126"
+          }
+        },
+        {
+          "name": "Sh. Bhupinder Singh",
+          "designation": "Supdt. (PRO)",
+          "contact": {
+            "mobile": "9417555148",
+            "landline_office": ["2760872"]
+          }
+        },
+        {
+          "name": "Mrs. Ramesh Chhabra",
+          "designation": "Supdt. Account",
+          "contact": {
+            "mobile": "9878786574"
+          }
+        },
+        {
+          "name": "Sh. Rajinder Singh",
+          "designation": "D.A.",
+          "contact": {
+            "mobile": "9779930615"
+          }
+        },
+        {
+          "name": "Sh. Ashok Gautam",
+          "designation": "D.D.A",
+          "contact": {
+            "mobile": "9779580910",
+            "landline_office": ["2740427", "2760813", "2924310"]
+          }
+        }
+      ]
+    }
+  }
+  
