@@ -1309,35 +1309,3 @@ app.listen(PORT, HOST, () => {
   console.log(`🎯 Top 6 priority articles: Always the latest and most relevant`);
   console.log(`🔧 Manual crawl: POST /admin/crawl-news`);
 });
-
-// ------------------------------------------------------
-// BOOKLETS API (FIXED VERSION)
-// ------------------------------------------------------
-
-const BOOKLETS_LIST = [
-  {
-    id: "1",
-    title: "Cyber Security Handbook",
-    fileUrl: "https://cybersaathi.info/booklets/Cyber%20Security%20Handbook.pdf",
-    size: "1.8 MB"
-  },
-  {
-    id: "2",
-    title: "Internet Safety Awareness",
-    fileUrl: "https://cybersaathi.info/booklets/Internet_Safety_Awareness.pdf",
-    size: "1.2 MB"
-  },
-  {
-    id: "3",
-    title: "Mahila Suraksha Booklet",
-    fileUrl: "https://cybersaathi.info/booklets/Mahila_Suraksha_Booklet25.pdf",
-    size: "2.4 MB"
-  }
-];
-
-app.get("/booklets", (req, res) => {
-  res.json({
-    success: true,
-    booklets: BOOKLETS_LIST
-  });
-});
