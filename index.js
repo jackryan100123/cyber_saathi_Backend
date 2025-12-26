@@ -28,6 +28,33 @@ const GROQ_API_KEY = process.env.GROQ_API_KEY;
 let crawlInterval = null;
 let cleanupInterval = null;
 
+// Round-robin model selection for load distribution
+const GROQ_MODELS = [
+  "llama-3.3-70b-versatile",
+  "llama-3.1-70b-versatile",
+  "mixtral-8x7b-32768"
+];
+let modelIndex = 0;
+let totalRequests = 0;
+const modelUsageStats = {};
+GROQ_MODELS.forEach(model => {
+  modelUsageStats[model] = 0;
+});
+
+// Get next model in round-robin fashion
+function getNextModel() {
+  const model = GROQ_MODELS[modelIndex];
+  const currentIndex = modelIndex;
+  modelIndex = (modelIndex + 1) % GROQ_MODELS.length;
+  totalRequests++;
+  modelUsageStats[model]++;
+  
+  console.log(`🔄 Round-Robin: Request #${totalRequests} → Model ${currentIndex + 1}/${GROQ_MODELS.length}: ${model}`);
+  console.log(`📊 Model Usage Stats:`, modelUsageStats);
+  
+  return model;
+}
+
 if (!GROQ_API_KEY) {
   throw new Error("GROQ_API_KEY is not set in environment variables");
 }
@@ -610,6 +637,31 @@ app.get("/health", (req, res) => {
   });
 });
 
+// GET /debug/models - Debug endpoint to check round-robin model rotation status
+app.get("/debug/models", (req, res) => {
+  const nextModelIndex = modelIndex;
+  const nextModel = GROQ_MODELS[nextModelIndex];
+  
+  res.json({
+    success: true,
+    roundRobin: {
+      totalRequests: totalRequests,
+      currentIndex: nextModelIndex,
+      nextModel: nextModel,
+      availableModels: GROQ_MODELS,
+      modelUsageStats: modelUsageStats,
+      rotationOrder: GROQ_MODELS.map((model, idx) => ({
+        index: idx,
+        model: model,
+        usageCount: modelUsageStats[model],
+        percentage: totalRequests > 0 
+          ? ((modelUsageStats[model] / totalRequests) * 100).toFixed(2) + '%'
+          : '0%'
+      }))
+    }
+  });
+});
+
 // ==================== QUIZ ENDPOINTS ====================
 
 // Quiz questions are imported from quizQuestions.js file
@@ -772,11 +824,14 @@ app.post("/chat", async (req, res) => {
       ...messages
     ];
 
+    // Get next model using round-robin for load distribution
+    const selectedModel = getNextModel();
+
     // Call Groq API
     const groqResponse = await axios.post(
       "https://api.groq.com/openai/v1/chat/completions",
       {
-        model: "llama-3.3-70b-versatile",
+        model: selectedModel,
         messages: groqMessages,
         max_tokens: 1024,
         temperature: 0.3,
@@ -799,7 +854,9 @@ app.post("/chat", async (req, res) => {
 
     res.json({
       success: true,
-      response: responseText
+      response: responseText,
+      model: selectedModel, // Include model name for verification
+      requestNumber: totalRequests
     });
   } catch (error) {
     console.error("❌ Error in chat endpoint:", error.message);
