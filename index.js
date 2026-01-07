@@ -32,7 +32,7 @@ let cleanupInterval = null;
 const GROQ_MODELS = [
   "llama-3.3-70b-versatile",
   "llama-3.1-8b-instant",
-  "meta-llama/llama-guard-4-12b"
+  "openai/gpt-oss-20b"
 ];
 let modelIndex = 0;
 let totalRequests = 0;
